@@ -15,8 +15,8 @@ jobs:
           xcode-version: latest-stable
       - run: chmod +x build_unsigned.sh build_esign_ready_ipa.sh
       - run: ./build_unsigned.sh
-      - run: ./build_esign_ready_ipa.sh build/tefvx.ipa
+      - run: ./build_esign_ready_ipa.sh build/voidlabs.ipa
       - uses: actions/upload-artifact@v4
         with:
-          name: tefvx-ipa
-          path: build/tefvx.ipa
+          name: voidlabs-ipa
+          path: build/voidlabs.ipa
