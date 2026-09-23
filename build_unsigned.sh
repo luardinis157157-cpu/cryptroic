@@ -21,7 +21,7 @@ xcodebuild \
   CODE_SIGN_IDENTITY='' \
   archive
 
-APP="$ARCHIVE/Products/Applications/Cryptroic.app"
+APP="$ARCHIVE/Products/Applications/voidlabs.app"
 test -d "$APP"
 PATCH_DIR="$APP/Patches"
 mkdir -p "$PATCH_DIR"
@@ -30,10 +30,10 @@ for package in "$APP"/*.3105; do
   mv "$package" "$PATCH_DIR/"
 done
 
-/usr/libexec/PlistBuddy -c "Set :CFBundleExecutable Cryptroic" "$APP/Info.plist" || true
+/usr/libexec/PlistBuddy -c "Set :CFBundleExecutable voidlabs" "$APP/Info.plist" || true
 /usr/libexec/PlistBuddy -c "Set :CFBundlePackageType APPL" "$APP/Info.plist" || true
-/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName VoidLabs" "$APP/Info.plist" || true
-/usr/libexec/PlistBuddy -c "Set :CFBundleName VoidLabs" "$APP/Info.plist" || true
+/usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName voidlabs" "$APP/Info.plist" || true
+/usr/libexec/PlistBuddy -c "Set :CFBundleName voidlabs" "$APP/Info.plist" || true
 mkdir -p "$BUILD_DIR/Payload"
 cp -R "$APP" "$BUILD_DIR/Payload/"
 (

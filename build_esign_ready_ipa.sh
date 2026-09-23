@@ -32,8 +32,8 @@ if [[ -e "$APP/embedded.mobileprovision" || -e "$APP/_CodeSignature" ]]; then
   exit 1
 fi
 
-if [[ ! -x "$APP/Cryptroic" ]]; then
-  echo "Error: expected original executable Cryptroic was not found in the app bundle." >&2
+if [[ ! -x "$APP/voidlabs" ]]; then
+  echo "Error: expected original executable voidlabs was not found in the app bundle." >&2
   exit 1
 fi
 

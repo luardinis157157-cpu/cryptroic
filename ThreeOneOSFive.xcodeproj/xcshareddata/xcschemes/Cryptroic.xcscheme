@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3105A500"
-               BuildableName = "Cryptroic.app"
+               BuildableName = "voidlabs.app"
                BlueprintName = "Cryptroic"
                ReferencedContainer = "container:ThreeOneOSFive.xcodeproj">
             </BuildableReference>
@@ -37,7 +37,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3105A500"
-            BuildableName = "Cryptroic.app"
+            BuildableName = "voidlabs.app"
             BlueprintName = "Cryptroic"
             ReferencedContainer = "container:ThreeOneOSFive.xcodeproj">
          </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3105A500"
-            BuildableName = "Cryptroic.app"
+            BuildableName = "voidlabs.app"
             BlueprintName = "Cryptroic"
             ReferencedContainer = "container:ThreeOneOSFive.xcodeproj">
          </BuildableReference>
