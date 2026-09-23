@@ -460,7 +460,7 @@ struct ContentView: View {
                     }
                     self.patchMessage = message
                 }
-                self.refreshPatchStates()
+                self.syncPatchStates()
                 self.patchOperationBusy = false
             }
         }
