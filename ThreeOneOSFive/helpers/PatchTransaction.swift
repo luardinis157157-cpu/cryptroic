@@ -267,10 +267,11 @@ enum PatchTransaction {
         guard journal.schemaVersion == schemaVersion,
               journal.transactionID == receipt.id,
               journal.projectID == receipt.projectID,
-              journal.status == .applied || journal.status == .prepared || journal.status == .rolledBack
+              journal.status == .applied
+                || journal.status == .prepared
+                || journal.status == .rolledBack
+                || journal.status == .restored
         else {
-            // Ja restaurado / status desconhecido: trata como ok pra UI poder desligar
-            if journal.status == .restored { return }
             throw PatchPackageError.restoreFailed
         }
 
@@ -327,28 +328,68 @@ enum PatchTransaction {
         backupRoot: URL,
         fileManager: FileManager = .default
     ) -> PatchTransactionReceipt? {
+        journalReceipts(projectID: projectID, backupRoot: backupRoot, fileManager: fileManager)
+            .first { $0.journal.status == .applied }
+            .map(\.receipt)
+    }
+
+    /// Ultimo journal com backup, mesmo ja marcado restored (toggle OFF com arquivo ainda patched).
+    static func latestRestoreReceipt(
+        projectID: UUID,
+        backupRoot: URL,
+        fileManager: FileManager = .default
+    ) -> PatchTransactionReceipt? {
+        journalReceipts(projectID: projectID, backupRoot: backupRoot, fileManager: fileManager)
+            .map(\.receipt)
+            .first
+    }
+
+    private struct JournalHit {
+        let journal: Journal
+        let receipt: PatchTransactionReceipt
+    }
+
+    private static func journalReceipts(
+        projectID: UUID,
+        backupRoot: URL,
+        fileManager: FileManager
+    ) -> [JournalHit] {
         let projectDirectory = backupRoot.appendingPathComponent(projectID.uuidString, isDirectory: true)
         guard let directories = try? fileManager.contentsOfDirectory(
             at: projectDirectory,
             includingPropertiesForKeys: nil,
             options: [.skipsHiddenFiles]
-        ) else { return nil }
+        ) else { return [] }
 
-        return directories.compactMap { directory -> (Journal, URL)? in
+        return directories.compactMap { directory -> JournalHit? in
             let url = directory.appendingPathComponent(journalFilename)
             guard let journal = try? readJournal(url),
-                  journal.status == .applied else { return nil }
-            return (journal, url)
-        }
-        .sorted { $0.0.createdAt > $1.0.createdAt }
-        .first
-        .map {
-            PatchTransactionReceipt(
-                id: $0.0.transactionID,
-                projectID: $0.0.projectID,
-                journalURL: $0.1
+                  journal.projectID == projectID else { return nil }
+            let receipt = PatchTransactionReceipt(
+                id: journal.transactionID,
+                projectID: journal.projectID,
+                journalURL: url
             )
+            return JournalHit(journal: journal, receipt: receipt)
         }
+        .sorted { $0.journal.createdAt > $1.journal.createdAt }
+    }
+
+    static func latestRestoreReceiptsNewestFirst(
+        projectIDs: [UUID],
+        backupRoot: URL,
+        fileManager: FileManager = .default
+    ) -> [PatchTransactionReceipt] {
+        projectIDs.compactMap { projectID -> (Date, PatchTransactionReceipt)? in
+            guard let hit = journalReceipts(
+                projectID: projectID,
+                backupRoot: backupRoot,
+                fileManager: fileManager
+            ).first else { return nil }
+            return (hit.journal.createdAt, hit.receipt)
+        }
+        .sorted { $0.0 > $1.0 }
+        .map(\.1)
     }
 
     static func requiredBundleIdentifiers(for receipt: PatchTransactionReceipt) throws -> [String] {
@@ -416,9 +457,15 @@ enum PatchTransaction {
                     throw PatchPackageError.restoreFailed
                 }
                 let backup = transactionDirectory.appendingPathComponent(backupFilename)
-                let backupOK = fileManager.fileExists(atPath: backup.path)
+                let backupExists = fileManager.fileExists(atPath: backup.path)
+                let backupOK = backupExists
                     && ((try? digestFile(backup)) == expectedDigest)
                 if !backupOK {
+                    // Copia mesmo se o digest mudou: desligar tem que devolver o backup.
+                    if bestEffort && backupExists {
+                        resolvedTargets.append((record, target))
+                        continue
+                    }
                     if bestEffort { continue }
                     throw PatchPackageError.restoreFailed
                 }

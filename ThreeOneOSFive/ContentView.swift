@@ -71,11 +71,23 @@ struct ContentView: View {
         .sheet(item: $patchStore.passwordRequest, onDismiss: patchStore.cancelUnlock) { _ in
             PatchUnlockPrompt(store: patchStore)
         }
-        .onAppear { syncPatchStates() }
+        .onAppear {
+            let items = patchStore.items
+            DispatchQueue.global(qos: .userInitiated).async {
+                DevicePatchService.uninjectInactivePackages(items: items)
+                DispatchQueue.main.async { syncPatchStates() }
+            }
+        }
         .onChange(of: scenePhase) { phase in
             guard phase == .active, !patchOperationBusy else { return }
-            syncPatchStates()
-            patchMessage = "PRONTO — SELECIONE UM PATCH"
+            let items = patchStore.items
+            DispatchQueue.global(qos: .userInitiated).async {
+                DevicePatchService.uninjectInactivePackages(items: items)
+                DispatchQueue.main.async {
+                    syncPatchStates()
+                    patchMessage = "PRONTO — SELECIONE UM PATCH"
+                }
+            }
         }
     }
 
@@ -434,19 +446,8 @@ struct ContentView: View {
             let result: PatchActionResult
             do {
                 if wasEnabled {
-                    if let receipt = DevicePatchService.latestReceipt(projectID: projectID) {
-                        do {
-                            try DevicePatchService.restore(receipt: receipt)
-                            result = .restored
-                        } catch {
-                            // Nao trava em ON: abandona receipt e desliga
-                            DevicePatchService.forceDeactivate(projectID: projectID)
-                            result = .restored
-                            log("patch: restore soft-fail, forced OFF: \(error.localizedDescription)")
-                        }
-                    } else {
-                        result = .restored
-                    }
+                    DevicePatchService.deactivate(projectID: projectID)
+                    result = .restored
                 } else {
                     guard let project else {
                         result = .unavailable("PASSWORD REQUIRED — UNLOCK PACKAGE")

@@ -71,10 +71,35 @@ enum DevicePatchService {
         }
     }
 
-    /// Força o patch a sair de "ON" mesmo se o restore de arquivos falhar.
-    static func forceDeactivate(projectID: UUID) {
-        guard let receipt = latestReceipt(projectID: projectID) else { return }
-        PatchTransaction.abandonReceipt(receipt)
+    /// Desliga de verdade: devolve os arquivos do backup, no mesmo fluxo do Hs Alto / Hs pescoco.
+    static func deactivate(projectID: UUID) {
+        guard let backupRoot = try? PatchProjectLibrary.backupRootURL() else { return }
+        let receipt = PatchTransaction.latestReceipt(projectID: projectID, backupRoot: backupRoot)
+            ?? PatchTransaction.latestRestoreReceipt(projectID: projectID, backupRoot: backupRoot)
+        guard let receipt else { return }
+        do {
+            try restore(receipt: receipt)
+        } catch {
+            log("patch: deactivate restore: \(error.localizedDescription)")
+        }
+    }
+
+    /// Pacotes com toggle OFF nao podem ficar injetados ao abrir o app.
+    static func uninjectInactivePackages(items: [PatchLibraryItem]) {
+        let inactiveIDs = items.compactMap { item -> UUID? in
+            latestReceipt(projectID: item.id) == nil ? item.id : nil
+        }
+        guard let backupRoot = try? PatchProjectLibrary.backupRootURL() else { return }
+        for receipt in PatchTransaction.latestRestoreReceiptsNewestFirst(
+            projectIDs: inactiveIDs,
+            backupRoot: backupRoot
+        ) {
+            do {
+                try restore(receipt: receipt)
+            } catch {
+                log("patch: startup uninject: \(error.localizedDescription)")
+            }
+        }
     }
 
     static func latestReceipt(projectID: UUID) -> PatchTransactionReceipt? {
