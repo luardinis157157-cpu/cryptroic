@@ -19,6 +19,8 @@ struct ContentView: View {
     @State private var aimBodyPackageEnabled = false
     @State private var aimChestPackageEnabled = false
     @State private var magicEnabled = false
+    @State private var headshotEnabled = false
+    @State private var chamsEnabled = false
     // FF MAX states
     @State private var maxAimDragEnabled = false
     @State private var maxAimNeckEnabled = false
@@ -27,6 +29,8 @@ struct ContentView: View {
     @State private var maxAimBodyPackageEnabled = false
     @State private var maxAimChestPackageEnabled = false
     @State private var maxMagicEnabled = false
+    @State private var maxHeadshotEnabled = false
+    @State private var maxChamsEnabled = false
 
     private enum GameMode: String, CaseIterable {
         case normal = "FF NORMAL"
@@ -165,6 +169,8 @@ struct ContentView: View {
                     patchCard(name: "Hs Alto",     target: "FREE FIRE • NORMAL", package: "Cryptroic File (6).3105",  color: AppTheme.accent, state: $aimDragEnabled)
                     patchCard(name: "Hs pescoço",  target: "FREE FIRE • NORMAL", package: "Cryptroic File (7).3105",  color: AppTheme.accent, state: $aimNeckEnabled)
                     patchCard(name: "Holograma",   target: "FREE FIRE • NORMAL", package: "Cryptroic File (8).3105",  color: AppTheme.accent, state: $hspeitoffEnabled)
+                    patchCard(name: "Chams",       target: "FREE FIRE • NORMAL", package: "Cryptroic File (16).3105", color: AppTheme.accent, state: $chamsEnabled)
+                    patchCard(name: "Headshot",    target: "FREE FIRE • NORMAL", package: "Cryptroic File (15).3105", color: AppTheme.accent, state: $headshotEnabled)
                     patchCard(name: "Magic",       target: "FREE FIRE • NORMAL", package: "Cryptroic File (10).3105", color: AppTheme.accent, state: $hyperBalamagicaEnabled)
                     patchCard(name: "Skin Mendela", target: "FREE FIRE • NORMAL", package: "Cryptroic File (12).3105", color: AppTheme.accent, state: $aimBodyPackageEnabled)
                     patchCard(name: "Skin V1",     target: "FREE FIRE • NORMAL", package: "Cryptroic File (14).3105", color: AppTheme.accent, state: $magicEnabled)
@@ -175,6 +181,8 @@ struct ContentView: View {
                     patchCard(name: "Hs Alto",     target: "FREE FIRE • MAX", package: "OGIOS File (6).3105",  color: AppTheme.accent, state: $maxAimDragEnabled)
                     patchCard(name: "Hs pescoço",  target: "FREE FIRE • MAX", package: "OGIOS File (7).3105",  color: AppTheme.accent, state: $maxAimNeckEnabled)
                     patchCard(name: "Holograma",   target: "FREE FIRE • MAX", package: "OGIOS File (8).3105",  color: AppTheme.accent, state: $maxHspeitoffEnabled)
+                    patchCard(name: "Chams",       target: "FREE FIRE • MAX", package: "OGIOS File (16).3105", color: AppTheme.accent, state: $maxChamsEnabled)
+                    patchCard(name: "Headshot",    target: "FREE FIRE • MAX", package: "OGIOS File (15).3105", color: AppTheme.accent, state: $maxHeadshotEnabled)
                     patchCard(name: "Magic",       target: "FREE FIRE • MAX", package: "OGIOS File (10).3105", color: AppTheme.accent, state: $maxHyperBalamagicaEnabled)
                     patchCard(name: "Skin Mendela", target: "FREE FIRE • MAX", package: "OGIOS File (12).3105", color: AppTheme.accent, state: $maxAimBodyPackageEnabled)
                     patchCard(name: "Skin V1",     target: "FREE FIRE • MAX", package: "OGIOS File (14).3105", color: AppTheme.accent, state: $maxMagicEnabled)
@@ -348,6 +356,8 @@ struct ContentView: View {
         aimBodyPackageEnabled     = isPatchActive("Cryptroic File (12).3105")
         aimChestPackageEnabled    = isPatchActive("Cryptroic File (2).3105")
         magicEnabled              = isPatchActive("Cryptroic File (14).3105")
+        headshotEnabled           = isPatchActive("Cryptroic File (15).3105")
+        chamsEnabled              = isPatchActive("Cryptroic File (16).3105")
         // FF MAX
         maxAimDragEnabled         = isPatchActive("OGIOS File (6).3105")
         maxAimNeckEnabled         = isPatchActive("OGIOS File (7).3105")
@@ -356,6 +366,8 @@ struct ContentView: View {
         maxAimBodyPackageEnabled  = isPatchActive("OGIOS File (12).3105")
         maxAimChestPackageEnabled = isPatchActive("OGIOS File (2).3105")
         maxMagicEnabled           = isPatchActive("OGIOS File (14).3105")
+        maxHeadshotEnabled        = isPatchActive("OGIOS File (15).3105")
+        maxChamsEnabled           = isPatchActive("OGIOS File (16).3105")
     }
 
     private func isPatchActive(_ packageFilename: String) -> Bool {
@@ -379,6 +391,8 @@ struct ContentView: View {
         case "Cryptroic File (12).3105": aimBodyPackageEnabled = enabled
         case "Cryptroic File (2).3105":  aimChestPackageEnabled = enabled
         case "Cryptroic File (14).3105": magicEnabled = enabled
+        case "Cryptroic File (15).3105": headshotEnabled = enabled
+        case "Cryptroic File (16).3105": chamsEnabled = enabled
         // FF MAX
         case "OGIOS File (6).3105":  maxAimDragEnabled = enabled
         case "OGIOS File (7).3105":  maxAimNeckEnabled = enabled
@@ -387,6 +401,8 @@ struct ContentView: View {
         case "OGIOS File (12).3105": maxAimBodyPackageEnabled = enabled
         case "OGIOS File (2).3105":  maxAimChestPackageEnabled = enabled
         case "OGIOS File (14).3105": maxMagicEnabled = enabled
+        case "OGIOS File (15).3105": maxHeadshotEnabled = enabled
+        case "OGIOS File (16).3105": maxChamsEnabled = enabled
         default: break
         }
     }
