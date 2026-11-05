@@ -90,6 +90,7 @@
 		3105P222 /* Cryptroic File (16).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105P122; };
 		3105P223 /* Cryptroic File (17).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105P123; };
 		3105P224 /* Cryptroic File (18).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105P124; };
+		3105P225 /* Cryptroic File (19).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105P125; };
 		3105Q201 /* OGIOS File (6).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q101; };
 		3105Q202 /* OGIOS File (7).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q102; };
 		3105Q203 /* OGIOS File (8).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q103; };
@@ -100,6 +101,7 @@
 		3105Q208 /* OGIOS File (16).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q108; };
 		3105Q209 /* OGIOS File (17).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q109; };
 		3105Q210 /* OGIOS File (18).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q110; };
+		3105Q211 /* OGIOS File (19).3105 in Resources */ = {isa = PBXBuildFile; fileRef = 3105Q111; };
 
 /* End PBXBuildFile section */
 
@@ -206,6 +208,7 @@
 		3105P122 /* Cryptroic File (16).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/Cryptroic File (16).3105"; sourceTree = "<group>"; };
 		3105P123 /* Cryptroic File (17).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/Cryptroic File (17).3105"; sourceTree = "<group>"; };
 		3105P124 /* Cryptroic File (18).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/Cryptroic File (18).3105"; sourceTree = "<group>"; };
+		3105P125 /* Cryptroic File (19).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/Cryptroic File (19).3105"; sourceTree = "<group>"; };
 		3105Q101 /* OGIOS File (6).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (6).3105"; sourceTree = "<group>"; };
 		3105Q102 /* OGIOS File (7).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (7).3105"; sourceTree = "<group>"; };
 		3105Q103 /* OGIOS File (8).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (8).3105"; sourceTree = "<group>"; };
@@ -216,6 +219,7 @@
 		3105Q108 /* OGIOS File (16).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (16).3105"; sourceTree = "<group>"; };
 		3105Q109 /* OGIOS File (17).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (17).3105"; sourceTree = "<group>"; };
 		3105Q110 /* OGIOS File (18).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (18).3105"; sourceTree = "<group>"; };
+		3105Q111 /* OGIOS File (19).3105 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ThreeOneOSFive/Patches/OGIOS File (19).3105"; sourceTree = "<group>"; };
 
 /* End PBXFileReference section */
 
@@ -438,6 +442,7 @@
 				3105P222,
 				3105P223,
 				3105P224,
+				3105P225,
 				3105Q201,
 				3105Q202,
 				3105Q203,
@@ -448,6 +453,7 @@
 				3105Q208,
 				3105Q209,
 				3105Q210,
+				3105Q211,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
